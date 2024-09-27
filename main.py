@@ -45,6 +45,11 @@ class TaskManagerApp:
         style.configure("TButton", foreground="white")
         style.configure("TLabel", foreground="white")
 
+        # Define the styles for titles and content
+        style.configure("Title.TLabel", font=("Arial", 20))  # Title font size 20
+        style.configure("Content.TButton", font=("Arial", 16))  # Content button font size 16
+        style.configure("Content.TLabel", font=("Arial", 16))  # Content label font size 16
+
         # Load tasks from file if it exists
         self.load_tasks()
 
@@ -58,12 +63,12 @@ class TaskManagerApp:
     def create_main_menu(self):
         self.clear_frame()
 
-        ttk.Label(self.main_frame, text="Nick's Task Manager", font=("Arial", 20)).pack(pady=20)
+        ttk.Label(self.main_frame, text="Task Manager", style="Title.TLabel").pack(pady=20)
 
-        ttk.Button(self.main_frame, text="Create Task", command=self.create_task).pack(pady=10)
-        ttk.Button(self.main_frame, text="View Tasks", command=self.view_tasks).pack(pady=10)
-        ttk.Button(self.main_frame, text="Edit Task", command=self.edit_task_menu).pack(pady=10)
-        ttk.Button(self.main_frame, text="Delete Task", command=self.delete_task_menu).pack(pady=10)
+        ttk.Button(self.main_frame, text="Create Task", command=self.create_task, style="Content.TButton").pack(pady=10)
+        ttk.Button(self.main_frame, text="View Tasks", command=self.view_tasks, style="Content.TButton").pack(pady=10)
+        ttk.Button(self.main_frame, text="Edit Task", command=self.edit_task_menu, style="Content.TButton").pack(pady=10)
+        ttk.Button(self.main_frame, text="Delete Task", command=self.delete_task_menu, style="Content.TButton").pack(pady=10)
 
     def create_task(self):
         self.clear_frame()
@@ -82,23 +87,22 @@ class TaskManagerApp:
             else:
                 messagebox.showwarning("Error", "All fields must be filled out!")
 
-        ttk.Label(self.main_frame, text="Create Task", font=("Arial", 20)).pack(pady=10)
+        ttk.Label(self.main_frame, text="Create Task", style="Title.TLabel").pack(pady=10)
 
-        ttk.Label(self.main_frame, text="Task Name:").pack(pady=10)
+        ttk.Label(self.main_frame, text="Task Name:", style="Content.TLabel").pack(pady=10)
         name_entry = ttk.Entry(self.main_frame)
         name_entry.pack()
 
-        ttk.Label(self.main_frame, text="Description:").pack(pady=10)
+        ttk.Label(self.main_frame, text="Description:", style="Content.TLabel").pack(pady=10)
         desc_entry = ttk.Entry(self.main_frame)
         desc_entry.pack()
 
-        ttk.Label(self.main_frame, text="Priority:").pack(pady=10)
-        # Combobox with readonly state so users can only select from the dropdown options
+        ttk.Label(self.main_frame, text="Priority:", style="Content.TLabel").pack(pady=10)
         priority_combo = ttk.Combobox(self.main_frame, values=["Low", "Medium", "High"], state="readonly")
         priority_combo.pack()
 
-        ttk.Button(self.main_frame, text="Create", command=submit_task).pack(pady=20)
-        ttk.Button(self.main_frame, text="Back to Menu", command=self.create_main_menu).pack(pady=10)
+        ttk.Button(self.main_frame, text="Create", command=submit_task, style="Content.TButton").pack(pady=20)
+        ttk.Button(self.main_frame, text="Back to Menu", command=self.create_main_menu, style="Content.TButton").pack(pady=10)
 
     def view_tasks(self):
         self.clear_frame()
@@ -106,26 +110,22 @@ class TaskManagerApp:
         def view_task_details(task):
             self.clear_frame()
 
-            # Create a frame for the task details to hold everything with a grid layout
             details_frame = ttk.Frame(self.main_frame)
             details_frame.pack(padx=20, pady=20, fill="both", expand=True)
 
-            # Left column (labels)
-            ttk.Label(details_frame, text="Task:", font=("Arial", 14)).grid(row=0, column=0, sticky="w", padx=10, pady=10)
-            ttk.Label(details_frame, text="Description:", font=("Arial", 14)).grid(row=1, column=0, sticky="w", padx=10, pady=10)
-            ttk.Label(details_frame, text="Priority:", font=("Arial", 14)).grid(row=2, column=0, sticky="w", padx=10, pady=10)
-            ttk.Label(details_frame, text="Logs:", font=("Arial", 14)).grid(row=3, column=0, sticky="nw", padx=10, pady=10)
+            ttk.Label(details_frame, text="Task:", style="Content.TLabel").grid(row=0, column=0, sticky="w", padx=10, pady=10)
+            ttk.Label(details_frame, text="Description:", style="Content.TLabel").grid(row=1, column=0, sticky="w", padx=10, pady=10)
+            ttk.Label(details_frame, text="Priority:", style="Content.TLabel").grid(row=2, column=0, sticky="w", padx=10, pady=10)
+            ttk.Label(details_frame, text="Logs:", style="Content.TLabel").grid(row=3, column=0, sticky="nw", padx=10, pady=10)
 
-            # Right column (content)
-            ttk.Label(details_frame, text=task.name, font=("Arial", 14)).grid(row=0, column=1, sticky="w", padx=10, pady=10)
-            ttk.Label(details_frame, text=task.description, font=("Arial", 14), wraplength=500, justify="left").grid(row=1, column=1, sticky="w", padx=10, pady=10)
-            ttk.Label(details_frame, text=task.priority, font=("Arial", 14)).grid(row=2, column=1, sticky="w", padx=10, pady=10)
+            ttk.Label(details_frame, text=task.name, style="Content.TLabel").grid(row=0, column=1, sticky="w", padx=10, pady=10)
+            ttk.Label(details_frame, text=task.description, style="Content.TLabel", wraplength=500, justify="left").grid(row=1, column=1, sticky="w", padx=10, pady=10)
+            ttk.Label(details_frame, text=task.priority, style="Content.TLabel").grid(row=2, column=1, sticky="w", padx=10, pady=10)
 
-            # Logs (if there are multiple logs, create them in a list format)
             log_frame = ttk.Frame(details_frame)
             log_frame.grid(row=3, column=1, sticky="w", padx=10, pady=10)
             for log in task.logs:
-                ttk.Label(log_frame, text=log, font=("Arial", 12), wraplength=500, justify="left").pack(anchor="w")
+                ttk.Label(log_frame, text=log, style="Content.TLabel", wraplength=500, justify="left").pack(anchor="w")
 
             def add_log():
                 log_popup = tk.Toplevel(self.root)
@@ -134,7 +134,7 @@ class TaskManagerApp:
                 log_frame_popup = ttk.Frame(log_popup, padding=20)
                 log_frame_popup.pack(fill="both", expand=True)
 
-                ttk.Label(log_frame_popup, text="Enter log:", font=("Arial", 14)).pack(pady=10)
+                ttk.Label(log_frame_popup, text="Enter log:", style="Content.TLabel").pack(pady=10)
                 log_entry = ttk.Entry(log_frame_popup)
                 log_entry.pack(pady=10)
 
@@ -155,9 +155,9 @@ class TaskManagerApp:
 
                     cal = Calendar(date_frame, selectmode='day', year=2024, month=9, day=1)
                     cal.pack(pady=10)
-                    ttk.Button(date_frame, text="Submit Log", command=submit_log).pack(pady=10)
+                    ttk.Button(date_frame, text="Submit Log", command=submit_log, style="Content.TButton").pack(pady=10)
 
-                ttk.Button(log_frame_popup, text="Pick Date", command=select_date).pack(pady=10)
+                ttk.Button(log_frame_popup, text="Pick Date", command=select_date, style="Content.TButton").pack(pady=10)
 
             def update_logs():
                 update_popup = tk.Toplevel(self.root)
@@ -166,28 +166,21 @@ class TaskManagerApp:
                 update_frame = ttk.Frame(update_popup, padding=20)
                 update_frame.pack(fill="both", expand=True)
 
-                # Display each log with Edit and Delete buttons
                 for idx, log in enumerate(task.logs):
                     log_frame = ttk.Frame(update_frame)
                     log_frame.pack(fill="x", pady=5)
 
-                    # Log text
-                    ttk.Label(log_frame, text=log, font=("Arial", 12), wraplength=500, justify="left").pack(side="left", padx=10)
-
-                    # Edit button
-                    ttk.Button(log_frame, text="Edit", command=lambda i=idx: edit_log(i)).pack(side="left", padx=5)
-
-                    # Delete button
-                    ttk.Button(log_frame, text="Delete", command=lambda i=idx: delete_log(i)).pack(side="left", padx=5)
+                    ttk.Label(log_frame, text=log, style="Content.TLabel", wraplength=500, justify="left").pack(side="left", padx=10)
+                    ttk.Button(log_frame, text="Edit", command=lambda i=idx: edit_log(i), style="Content.TButton").pack(side="left", padx=5)
+                    ttk.Button(log_frame, text="Delete", command=lambda i=idx: delete_log(i), style="Content.TButton").pack(side="left", padx=5)
 
                 def edit_log(index):
-                    # Create popup to edit selected log
                     edit_popup = tk.Toplevel(self.root)
                     edit_popup.title("Edit Log")
                     edit_frame = ttk.Frame(edit_popup, padding=20)
                     edit_frame.pack(fill="both", expand=True)
 
-                    ttk.Label(edit_frame, text="Edit log:", font=("Arial", 14)).pack(pady=10)
+                    ttk.Label(edit_frame, text="Edit log:", style="Content.TLabel").pack(pady=10)
                     log_entry = ttk.Entry(edit_frame)
                     log_entry.insert(0, task.logs[index])  # Pre-fill with current log text
                     log_entry.pack(pady=10)
@@ -201,7 +194,7 @@ class TaskManagerApp:
                             update_popup.destroy()
                             view_task_details(task)  # Refresh task details
 
-                    ttk.Button(edit_frame, text="Save", command=save_edit).pack(pady=10)
+                    ttk.Button(edit_frame, text="Save", command=save_edit, style="Content.TButton").pack(pady=10)
 
                 def delete_log(index):
                     if messagebox.askyesno("Delete Log", "Are you sure you want to delete this log?"):
@@ -210,26 +203,19 @@ class TaskManagerApp:
                         update_popup.destroy()
                         view_task_details(task)  # Refresh task details
 
-            # Centered Buttons for "Add Log", "Update Logs", and "Back to Tasks"
-            button_frame = ttk.Frame(self.main_frame)
-            button_frame.pack(pady=20)
+            ttk.Button(self.main_frame, text="Add Log", command=add_log, style="Content.TButton").pack(side="left", padx=10)
+            ttk.Button(self.main_frame, text="Update Logs", command=update_logs, style="Content.TButton").pack(side="left", padx=10)
+            ttk.Button(self.main_frame, text="Back to Tasks", command=self.view_tasks, style="Content.TButton").pack(side="left", padx=10)
 
-            ttk.Button(button_frame, text="Add Log", command=add_log).pack(side="left", padx=10)
-            ttk.Button(button_frame, text="Update Logs", command=update_logs).pack(side="left", padx=10)
-            ttk.Button(button_frame, text="Back to Tasks", command=self.view_tasks).pack(side="left", padx=10)
-
-        # Sort tasks by priority before displaying them
         sorted_tasks = self.sort_tasks_by_priority()
 
-        ttk.Label(self.main_frame, text="View Tasks", font=("Arial", 20)).pack(pady=20)
+        ttk.Label(self.main_frame, text="View Tasks", style="Title.TLabel").pack(pady=20)
 
         for task in sorted_tasks:
-            # Display task name and priority on the button
             task_button_text = f"{task.name} (Priority: {task.priority})"
-            task_button = ttk.Button(self.main_frame, text=task_button_text, command=lambda t=task: view_task_details(t))
-            task_button.pack(pady=5)
+            ttk.Button(self.main_frame, text=task_button_text, command=lambda t=task: view_task_details(t), style="Content.TButton").pack(pady=5)
 
-        ttk.Button(self.main_frame, text="Back to Menu", command=self.create_main_menu).pack(pady=20)
+        ttk.Button(self.main_frame, text="Back to Menu", command=self.create_main_menu, style="Content.TButton").pack(pady=20)
 
     def edit_task_menu(self):
         self.clear_frame()
@@ -247,33 +233,25 @@ class TaskManagerApp:
 
             self.clear_frame()
 
-            ttk.Label(self.main_frame, text=f"Edit Task: {task.name}", font=("Arial", 20)).pack(pady=10)
+            ttk.Label(self.main_frame, text=f"Edit Task: {task.name}", style="Title.TLabel").pack(pady=10)
 
-            ttk.Label(self.main_frame, text="Task Name:").pack(pady=10)
+            ttk.Label(self.main_frame, text="Task Name:", style="Content.TLabel").pack(pady=10)
             name_entry = ttk.Entry(self.main_frame)
             name_entry.insert(0, task.name)
             name_entry.pack()
 
-            ttk.Label(self.main_frame, text="Description:").pack(pady=10)
+            ttk.Label(self.main_frame, text="Description:", style="Content.TLabel").pack(pady=10)
             desc_entry = ttk.Entry(self.main_frame)
             desc_entry.insert(0, task.description)
             desc_entry.pack()
 
-            ttk.Label(self.main_frame, text="Priority:").pack(pady=10)
-            # Ensure the user can only pick from the dropdown list in the edit menu as well
+            ttk.Label(self.main_frame, text="Priority:", style="Content.TLabel").pack(pady=10)
             priority_combo = ttk.Combobox(self.main_frame, values=["Low", "Medium", "High"], state="readonly")
             priority_combo.set(task.priority)
             priority_combo.pack()
 
-            ttk.Button(self.main_frame, text="Update", command=submit_edit).pack(pady=20)
-
-        ttk.Label(self.main_frame, text="Edit Task", font=("Arial", 20)).pack(pady=20)
-
-        for task_name in self.tasks:
-            task_button = ttk.Button(self.main_frame, text=task_name, command=lambda t=self.tasks[task_name]: edit_task(t))
-            task_button.pack(pady=5)
-
-        ttk.Button(self.main_frame, text="Back to Menu", command=self.create_main_menu).pack(pady=20)
+            ttk.Button(self.main_frame, text="Update", command=submit_edit, style="Content.TButton").pack(pady=20)
+            ttk.Button(self.main_frame, text="Back to Menu", command=self.create_main_menu, style="Content.TButton").pack(pady=10)
 
     def delete_task_menu(self):
         self.clear_frame()
@@ -286,13 +264,12 @@ class TaskManagerApp:
                 messagebox.showinfo("Success", f"Task '{task_name}' deleted!")
                 self.delete_task_menu()
 
-        ttk.Label(self.main_frame, text="Delete Task", font=("Arial", 20)).pack(pady=20)
+        ttk.Label(self.main_frame, text="Delete Task", style="Title.TLabel").pack(pady=20)
 
         for task_name in self.tasks:
-            task_button = ttk.Button(self.main_frame, text=task_name, command=lambda tn=task_name: delete_task(tn))
-            task_button.pack(pady=5)
+            ttk.Button(self.main_frame, text=task_name, command=lambda tn=task_name: delete_task(tn), style="Content.TButton").pack(pady=5)
 
-        ttk.Button(self.main_frame, text="Back to Menu", command=self.create_main_menu).pack(pady=20)
+        ttk.Button(self.main_frame, text="Back to Menu", command=self.create_main_menu, style="Content.TButton").pack(pady=20)
 
     def clear_frame(self):
         for widget in self.main_frame.winfo_children():
