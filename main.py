@@ -1,9 +1,8 @@
 import tkinter as tk
-from tkinter import messagebox, simpledialog
+from tkinter import messagebox
 from tkinter import ttk
 from ttkthemes import ThemedTk
 from tkcalendar import Calendar
-from datetime import datetime
 import json
 import os
 
@@ -63,7 +62,7 @@ class TaskManagerApp:
     def create_main_menu(self):
         self.clear_frame()
 
-        ttk.Label(self.main_frame, text="Task Manager", style="Title.TLabel").pack(pady=20)
+        ttk.Label(self.main_frame, text="Nick's Task Manager", style="Title.TLabel").pack(pady=20)
 
         ttk.Button(self.main_frame, text="Create Task", command=self.create_task, style="Content.TButton").pack(pady=10)
         ttk.Button(self.main_frame, text="View Tasks", command=self.view_tasks, style="Content.TButton").pack(pady=10)
@@ -220,11 +219,25 @@ class TaskManagerApp:
     def edit_task_menu(self):
         self.clear_frame()
 
+        ttk.Label(self.main_frame, text="Edit Task", style="Title.TLabel").pack(pady=20)
+
+        # Create a button for each task
+        for task_name, task in self.tasks.items():
+            ttk.Button(self.main_frame, text=task_name, command=lambda t=task: edit_task(t), style="Content.TButton").pack(pady=5)
+
+        ttk.Button(self.main_frame, text="Back to Menu", command=self.create_main_menu, style="Content.TButton").pack(pady=20)
+
         def edit_task(task):
             def submit_edit():
-                task.name = name_entry.get()
+                new_name = name_entry.get()
                 task.description = desc_entry.get()
                 task.priority = priority_combo.get()
+
+                # Handle the case if the user changes the task name
+                if new_name != task.name:
+                    # Update the dictionary key if the task name is changed
+                    self.tasks[new_name] = self.tasks.pop(task.name)
+                    task.name = new_name
 
                 messagebox.showinfo("Success", f"Task '{task.name}' updated!")
                 self.sort_tasks_by_priority()  # Re-sort tasks after editing
@@ -252,6 +265,7 @@ class TaskManagerApp:
 
             ttk.Button(self.main_frame, text="Update", command=submit_edit, style="Content.TButton").pack(pady=20)
             ttk.Button(self.main_frame, text="Back to Menu", command=self.create_main_menu, style="Content.TButton").pack(pady=10)
+
 
     def delete_task_menu(self):
         self.clear_frame()
@@ -294,7 +308,8 @@ class TaskManagerApp:
         return sorted_tasks
 
 
-# Create the Tkinter window with the equilux theme
-root = ThemedTk(theme="equilux")
-app = TaskManagerApp(root)
-root.mainloop()
+if __name__ == "__main__":
+    root = ThemedTk(theme="equilux")
+    app = TaskManagerApp(root)
+    root.mainloop()
+
