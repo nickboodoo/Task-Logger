@@ -1,24 +1,10 @@
 [
     {
-        "name": "task 1",
-        "description": "nothing",
-        "priority": "high",
+        "name": "asdfasd",
+        "description": "asdfasdf",
+        "priority": "Medium",
         "logs": [
-            "2024-09-11: ajskfdjalsdk",
-            "2024-09-04: sjadhfjkasdfas",
-            "2024-09-02: sssssssssssssssssaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            "2024-08-30: asdfasdfaddddddddddddddddddddddddaaaaaaaaaaaaaaaaaaa"
         ]
-    },
-    {
-        "name": "sdafasdf",
-        "description": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssdddddddddddddddddddddddddddddddddddd",
-        "priority": "low",
-        "logs": []
-    },
-    {
-        "name": "askdfajk",
-        "description": "ajsdklfasdkdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "priority": "asdfa",
-        "logs": []
     }
 ]
